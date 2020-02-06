@@ -4,6 +4,8 @@ clear all
 close all
 clc
 
+%% Simulation Factors
+reduction = 5; % Factor that sets the improving of the simulation's speed
 %% Fundamental Constants
 epsilon_0 = 8.85e-12; % Simple medium permittivity
 mu_0 = 4*pi*1e-7; % Simple medium permeability
@@ -68,10 +70,15 @@ for n = 2:Nt
     HyBuffer2 = Hy(Nz-1);
     
     % Plotting the Fields
-    subplot(2,1,1), plot(z,Ex), axis([z(1) z(Nz) -1.5 1.5]),...
-        xlabel('z (nm)'), ylabel('Ex');
-    subplot(2,1,2), plot(z,Hy), axis([z(1) z(Nz) -1.5/eta_0 1.5/eta_0]),...
-        xlabel('z (nm)'), ylabel('Hy');
-    drawnow
+    
+    if (mod(n,reduction) == 0) % Condition that improves the speed of the 
+    % simulation by reducing the number of components that are actually
+    % being plotted and drawn on the screen
+        subplot(2,1,1), plot(z,Ex), axis([z(1) z(Nz) -1.5 1.5]),...
+            xlabel('z (nm)'), ylabel('Ex');
+        subplot(2,1,2), plot(z,Hy), axis([z(1) z(Nz) -1.5/eta_0 1.5/eta_0]),...
+            xlabel('z (nm)'), ylabel('Hy');
+        drawnow
+    end
         
 end
